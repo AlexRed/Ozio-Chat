@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="library" version="2.5" method="upgrade">
+	<name>OzioChat</name>
+	<creationDate>13/02/2012</creationDate>
+	<author>Open Source Solutions SLU</author>
+	<authorEmail>info@opensourcesolutions.es</authorEmail>
+	<authorUrl>http://www.opensourcesolutions.es/</authorUrl>
+	<copyright>Open Source Solutions SLU</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.0.0</version>
+	<libraryname>oziochat</libraryname>
+
+	<files>
+		<folder>css</folder>
+		<folder>js</folder>
+		<folder>language</folder>
+		<folder>models</folder>
+		<folder>smartloader</folder>
+		<folder>chat</folder>
+	</files>
+
+	<media destination="oziochat" folder="media">
+		<filename>index.html</filename>
+		<folder>images</folder>
+	</media>
+</extension>

@@ -1,0 +1,14 @@
+/*
+Emoji Symbols Font (c)blockworks - Kenichi Kaneko
+http://emojisymbols.com/
+*/
+
+@font-face {
+  font-family: "EmojiSymbols";
+  src: url("fonts/EmojiSymbols-Regular.woff");
+}
+  
+.emoji, .oziochat-chat-widget ul.oziochat-chat-activity-stream li .oc-text, .oziochat-chat-widget textarea{
+	font-family: "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+
+}

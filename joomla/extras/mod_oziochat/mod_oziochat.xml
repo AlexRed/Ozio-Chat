@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.7" method="upgrade" client="site">
+	<name>mod_oziochat</name>
+	<creationDate>20/04/2015</creationDate>
+	<author>Open Source Solutions SLU</author>
+	<authorEmail>info@opensourcesolutions.es</authorEmail>
+	<authorUrl>http://www.opensourcesolutions.es/</authorUrl>
+	<copyright>Open Source Solutions SLU</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.0.0</version>
+	<description>MOD_OZIOCHAT_DESCRIPTION</description> <!-- Used in Module Manager > New > Select a Module Type. Translation in modules/mod_oziochat/language/xx-XX/xx-XX.mod_oziochat.ini -->
+
+	<files>
+		<filename module="mod_oziochat">mod_oziochat.php</filename>
+		<filename>mod_oziochat.xml</filename>
+		<filename>index.html</filename>
+		<folder>language</folder>
+		<folder>tmpl</folder>
+	</files>
+	<config>
+		<fields name="params" addfieldpath="/libraries/oziochat/models/fields">
+
+			<fieldset name="basic" addfieldpath="/libraries/oziochat/models/fields">
+				<field type="langloader"/>
+				<field type="transchecker"/>
+				<field type="register"/>
+
+				<field type="ossheader" default="OZIOCHAT_PARAMS" icon="map-16.png"/>
+				
+				<field name="pusher_app_id" type="text" label="OZIOCHAT_APP_ID_LBL" description="OZIOCHAT_APP_ID_DSC" default="" required="true"/>
+				<field name="pusher_app_key" type="text" label="OZIOCHAT_APP_KEY_LBL" description="OZIOCHAT_APP_KEY_DSC" default="" required="true"/>
+				<field name="pusher_app_secret" type="text" label="OZIOCHAT_APP_SECRET_LBL" description="OZIOCHAT_APP_SECRET_DSC" default="" required="true"/>
+				
+				<field name="pusher_channel_name" type="text" label="OZIOCHAT_CHANNEL_NAME_LBL" description="OZIOCHAT_CHANNEL_NAME_DSC" default="channel1" required="true"/>
+				
+                <field name="align" type="list" label="OZIOCHAT_ALIGN_LBL" description="OZIOCHAT_ALIGN_DSC" default="left">
+                    <option value="left">OZIOCHAT_ALIGN_LEFT</option>
+                    <option value="right">OZIOCHAT_ALIGN_RIGHT</option>
+                </field>
+				
+                <field name="anonymous_login" type="list" label="OZIOCHAT_ANONYMOUS_LOGIN_LBL" description="OZIOCHAT_ANONYMOUS_LOGIN_DSC" default="1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+				
+                <field name="joomla_login" type="list" label="OZIOCHAT_JOOMLA_LOGIN_LBL" description="OZIOCHAT_JOOMLA_LOGIN_DSC" default="1">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+				<field name="facebook_app_id" type="text" label="OZIOCHAT_FB_APP_ID_LBL" description="OZIOCHAT_FB_APP_ID_DSC" default=""/>
+				<field name="facebook_app_secret" type="text" label="OZIOCHAT_FB_APP_SECRET_LBL" description="OZIOCHAT_FB_APP_SECRET_DSC" default=""/>
+
+
+				<field name="googleplus_client_id" type="text" label="OZIOCHAT_GP_CLIENT_ID_LBL" description="OZIOCHAT_GP_CLIENT_ID_DSC" default=""/>
+				<field name="googleplus_client_secret" type="text" label="OZIOCHAT_GP_CLIENT_SECRET_LBL" description="OZIOCHAT_GP_CLIENT_SECRET_DSC" default=""/>
+
+				<field name="twitter_consumer_key" type="text" label="OZIOCHAT_TW_CONSUMER_KEY_LBL" description="OZIOCHAT_TW_CONSUMER_KEY_DSC" default=""/>
+				<field name="twitter_consumer_secret" type="text" label="OZIOCHAT_TW_CONSUMER_SECRET_LBL" description="OZIOCHAT_TW_CONSUMER_SECRET_DSC" default=""/>
+				
+				<field name="bgcolor" type="color" default="#F5F5F5" description="OZIOCHAT_BG_COLOR_DSC" label="OZIOCHAT_BG_COLOR_LBL"/>
+				
+				<field name="infobox_msg" label="OZIOCHAT_INFOBOX_LBL" description="OZIOCHAT_INFOBOX_DSC" type="editor" filter="safehtml" />
+				
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field name="zindex" type="text" label="OZIOCHAT_ZINDEX_LBL" description="OZIOCHAT_ZINDEX_DSC" default="999"/>
+
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field name="css" type="filelist" label="OZIOCHAT_ALT_CSS_LBL" description="OZIOCHAT_ALT_CSS_DSC" default="default.php" hide_none="true" directory="libraries/oziochat/css" filter="\.php$" exclude="" stripext="true"/>
+				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+			</fieldset>
+
+		</fields>
+	</config>
+
+</extension>
