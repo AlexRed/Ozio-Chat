@@ -60,6 +60,9 @@
 				
 				<field name="bgcolor" type="color" default="#F5F5F5" description="OZIOCHAT_BG_COLOR_DSC" label="OZIOCHAT_BG_COLOR_LBL"/>
 				
+				<field name="bubble_url" type="url" default="" label="OZIOCHAT_BUBBLE_URL_LBL" description="OZIOCHAT_BUBBLE_URL_DSC" />
+				<field type="bubbleurl"/>
+				
 				<field name="infobox_msg" label="OZIOCHAT_INFOBOX_LBL" description="OZIOCHAT_INFOBOX_DSC" type="editor" filter="safehtml" />
 				
 			</fieldset>

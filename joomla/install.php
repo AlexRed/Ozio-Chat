@@ -111,6 +111,29 @@ class com_oziochatInstallerScript
 		$result["result"] = $this->results["lib_" . $this->extension_name]["result"];
 		$this->results["lan_" . $this->extension_name] = $result;
 
+		if ($this->event=='install'){
+			
+			$params=array();
+			$params["bubble_url"]=JURI::root() . "media/oziochat/images/chat-bubble.png";
+
+			$table = JTable::getInstance('Module');
+			if ($table->load(array('module'=> 'mod_oziochat'))) {
+				$dbParameter = new JRegistry;
+				$dbParameter->loadString($table->params);
+				
+				$parameter = new JRegistry;
+				$parameter->loadArray($params);
+				
+				$parameter->merge($dbParameter);
+				
+				$table->params = (string)$parameter;				
+				
+				if (!$table->store()) {
+					//echo $table->getError().'<br />';
+					//return;
+				}
+			}		
+		}
 	}
 
 

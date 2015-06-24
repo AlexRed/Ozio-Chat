@@ -12,6 +12,18 @@ function OzioChatPusherChatWidget(options) {
   OzioChatPusherChatWidget.instances.push(this);
   var self = this;
   
+    var searchString = window.location.search.substring(1),
+      i, val, params = searchString.split("&");
+	  
+	 self.oc_popout = false;
+	for (i=0;i<params.length;i++) {
+		val = params[i].split("=");
+		if (val[0] == 'oc_popout') {
+			self.oc_popout = val[1]==1;
+			break;
+		}
+	}
+  
   
   this._autoScroll = true;
   
@@ -44,7 +56,7 @@ function OzioChatPusherChatWidget(options) {
     
   this._itemCount = 0;
   
-  this._widget = OzioChatPusherChatWidget._createHTML(this.settings.appendTo,this.settings.cloneFrom);
+  this._widget = OzioChatPusherChatWidget._createHTML(this.settings.appendTo,this.settings.cloneFrom, self.oc_popout);
   this._nicknameEl = this._widget.find('input[name=nickname]');
   this._emailEl = this._widget.find('input[name=email]');  
   this._messageInputEl = this._widget.find('textarea');
@@ -54,13 +66,19 @@ function OzioChatPusherChatWidget(options) {
   this._widget_left = this._widget.find('.oziochat-chat-left');
   this._widget_right = this._widget.find('.oziochat-chat-right');
   
+  this._widget_title_label = this._widget.find('.oziochat-chat-widget-title > label');
+  
   this._wnd_sound='on';
   
-  this._wnd_state='m';//minimized
-  
-  var wnd_state=oc_cookie.get('oc_wnd_state');
-  if (typeof wnd_state !== 'undefined' && (wnd_state=='m' || wnd_state=='M' )) {
-	  this._wnd_state=wnd_state;
+  if (self.oc_popout){
+	  this._wnd_state='M';
+  }else{
+	  this._wnd_state='m';//minimized
+	  
+	  var wnd_state=oc_cookie.get('oc_wnd_state');
+	  if (typeof wnd_state !== 'undefined' && (wnd_state=='m' || wnd_state=='M' )) {
+		  this._wnd_state=wnd_state;
+	  }
   }
 
    var wnd_sound=oc_cookie.get('oc_wnd_sound');
@@ -75,7 +93,16 @@ function OzioChatPusherChatWidget(options) {
   this._elemets.push(this._widget.find('.oziochat-chat-widget-content').next());
 
   this._wnd_min = this._widget.find('.oziochat-chat-widget-minimize');
+  this._wnd_popout = this._widget.find('.oziochat-chat-widget-popout');
   this._wnd_max = this._widget.find('.oziochat-chat-widget-maximize');  
+  this._wnd_bubble = this._widget.find('.oziochat-chat-widget-bubble');  
+  
+  if (self.oc_popout){
+	  this._wnd_min.hide();
+	  this._wnd_popout.hide();
+	  this._wnd_max.hide();
+	  this._wnd_bubble.hide();
+  }
 
   this._wnd_info = this._widget.find('.oziochat-chat-widget-question');  
   this._wnd_emoji = this._widget.find('.oziochat-chat-widget-emoji');  
@@ -164,18 +191,25 @@ function OzioChatPusherChatWidget(options) {
 		});
 	  
   });
-
+  this._wnd_bubble.click(function() {
+	  self._animateMaximize();
+  });
   this._wnd_max.click(function() {
-	self._wnd_state='M';
-	oc_cookie.set('oc_wnd_state',self._wnd_state, { path: '/' });
-    self._upadateWnd();
+	  self._animateMaximize();
   });
   this._wnd_min.click(function() {
-	self._wnd_state='m';
-	oc_cookie.set('oc_wnd_state',self._wnd_state, { path: '/' });
-    self._upadateWnd();
+	  self._animateMinimize();
   });
-  
+  this._wnd_popout.click(function() {
+	  var param = 'oc_popout=1';
+	  if (window.location.search==''){
+		  param = '?'+param;
+	  }else{
+		  param = '&'+param;
+	  }
+	  
+	var w =window.open(window.location.href+param, '', 'width=450,height=500');
+  });
   this._logout_btn=this._widget.find('.oziochat-chat-logout');
   this._logout_btn.click(function(){
 	  self._logout_click();
@@ -281,9 +315,13 @@ function OzioChatPusherChatWidget(options) {
   
   
   jQuery(window).resize(function(){
-	self.responsiveAdjust();
+	self.responsiveAdjust(self._wnd_state,true);
   });
-  self.responsiveAdjust();
+  self.responsiveAdjust(self._wnd_state,true);
+  
+  
+	
+  
 };
 OzioChatPusherChatWidget.instances = [];
 
@@ -292,23 +330,76 @@ function oc_gp_signin_callback(response){
 		OzioChatPusherChatWidget.instances[i].gp_signin_callback(response);
 	}
 }
+OzioChatPusherChatWidget.prototype._animateMaximize = function(){
+	
+	var self=this;
+	var wh=self.responsiveAdjust('M',false);
+	self._widget.animate({width:wh[0]+'px'}, 200,'swing',function(){
+		self._wnd_state='M';
+		oc_cookie.set('oc_wnd_state',self._wnd_state, { path: '/' });
+		self._upadateWnd();
+		self._widget.animate({'max-height':wh[1]+'px'}, 200,'swing', function(){
+			self._widget.css('max-height','none');
+			self.responsiveAdjust(self._wnd_state,true);
+		});
+		
+	});
+	
+}
+OzioChatPusherChatWidget.prototype._animateMinimize = function(){
+	var self=this;
+	var wh=self.responsiveAdjust('m',false);
+	
+	self._widget.animate({width:wh[0]+'px'}, 200,'swing',function(){
+		var outer_height = self._widget.outerHeight(true);
+		self._widget.css('max-height',outer_height+"px");
+		self._widget.animate({'max-height': '30px'}, 200,'swing', function(){
+			self._wnd_state='m';
+			oc_cookie.set('oc_wnd_state',self._wnd_state, { path: '/' });
+			self._upadateWnd();
+			self._widget.css('max-height','none');
+			
+			self.responsiveAdjust(self._wnd_state,true);
+			
+		});
+		
+	});
+}
 
-OzioChatPusherChatWidget.prototype.responsiveAdjust = function(){
+OzioChatPusherChatWidget.prototype.responsiveAdjust = function(wnd_state,width_set){
 	var self=this;
 	 var w = jQuery(window).width(); 
 	 var h = jQuery(window).height(); 
 
 	 //WIDTH
-	 
-
+	 var left_default_width = 300;
 	 var full_widget_width = 450;
-	if (self._widget.hasClass('oc-logged-in')){
-		full_widget_width= 450;
+	 var max_messages_height=300;
+	if (self.oc_popout){
+		full_widget_width = w+100;
+		max_messages_height = h+100;
+		if (self._widget.hasClass('oc-logged-in')){
+			left_default_width = Math.max(w - 300,left_default_width);
+		}else{
+			left_default_width = w;
+		}
 	}else{
-		full_widget_width= 300;
-	}
+		 if (wnd_state=='m'){
+			 full_widget_width = 200;
+		 }else{
 
+			 var full_widget_width = 450;
+			if (self._widget.hasClass('oc-logged-in')){
+				full_widget_width= 450;
+			}else{
+				full_widget_width= 300;
+			}
+		 }
+	}
 	var offset_align = Math.max(Math.min(30,w - (full_widget_width+10+10+1+1)),0);
+	if (self.oc_popout){
+		offset_align=0;
+	}
 	 if (self.settings.halign=='left'){
 		 self._widget.css('left',offset_align+'px');
 	 }else{
@@ -316,10 +407,12 @@ OzioChatPusherChatWidget.prototype.responsiveAdjust = function(){
 	 }
 	 
 	 var widget_width = Math.min(full_widget_width, w-(10+10+1+1+offset_align));
+	 if (width_set){
+		 self._widget.width(widget_width);
+	 }
+	 self._widget_title_label.css('max-width',Math.max(widget_width-110,10)+'px');
 	 
-	 self._widget.width(widget_width);
-	 
-	 var right_width = widget_width - 10 - 300;
+	 var right_width = widget_width - 10 - left_default_width;
 	 if (right_width < 70){
 		 right_width = -10;
 	 }
@@ -338,10 +431,22 @@ OzioChatPusherChatWidget.prototype.responsiveAdjust = function(){
 			self._widget_right.show();
 	 }
 	 //HEIGHT
+	 var messagesEl_height = Math.min(Math.max(80,h-(17+30+46+24+self._messageInputEl.outerHeight(true)+38)),max_messages_height);
+	 var widgetLogin_height = Math.min(Math.max(80,h-(7+30+38)),max_messages_height);
+	if (self.oc_popout){
+		 self._messagesEl.css('height',messagesEl_height+"px");
+		 self._widget_login.css('height',widgetLogin_height+"px");
+		 self._messagesEl.css('max-height',"none");
+	}else{
+		 self._messagesEl.css('max-height',messagesEl_height+"px");
+	}
 	 
-	 var messagesEl_height = Math.min(Math.max(80,h-(17+30+46+24+self._messageInputEl.outerHeight(true)+38)),300);
+	var content_height=30;
+	for (var i=0;i<self._elemets.length;i++){
+		content_height+=self._elemets[i].outerHeight(true);
+	}
 	 
-	 self._messagesEl.css('max-height',messagesEl_height+"px");
+	 return [widget_width,  content_height];
 }
 
 
@@ -413,17 +518,23 @@ OzioChatPusherChatWidget.prototype._upadateWnd = function() {
 		for (var i=0;i<this._elemets.length;i++){
 			this._elemets[i].hide();
 		}
-		this._wnd_min.hide();
-		this._wnd_max.show();
+		if (!this.oc_popout){
+			this._wnd_min.hide();
+			this._wnd_max.show();
+			this._wnd_bubble.show();
+		}
 	}else{
 		//maximized
 		for (var i=0;i<this._elemets.length;i++){
 			this._elemets[i].show();
 		}
-		this._wnd_min.show();
-		this._wnd_max.hide();
+		if (!this.oc_popout){
+			this._wnd_min.show();
+			this._wnd_max.hide();
+			this._wnd_bubble.hide();
+		}
 	}
-
+	//this.responsiveAdjust(self._wnd_state,true);
 
 };
 
@@ -496,7 +607,7 @@ OzioChatPusherChatWidget.prototype._show_loggedin = function(loggedin) {
 			self.vitality_timer=null;
 		}
 	}
-	self.responsiveAdjust();
+	self.responsiveAdjust(self._wnd_state,true);
 }
 OzioChatPusherChatWidget.prototype.restart_vitality_timer = function(){
 	var self=this;
@@ -1462,9 +1573,16 @@ OzioChatPusherChatWidget.prototype._startTimeMonitor = function() {
 };
 
 /* @private */
-OzioChatPusherChatWidget._createHTML = function(appendTo,cloneFrom) {
-  var widget = jQuery(cloneFrom);
-  jQuery(appendTo).append(widget);
+OzioChatPusherChatWidget._createHTML = function(appendTo,cloneFrom, oc_popout) {
+  if (oc_popout){
+	  var widget = jQuery(cloneFrom).clone();
+	  jQuery('body').empty();
+	  jQuery(appendTo).append(widget);
+  }else{
+	
+	  var widget = jQuery(cloneFrom);
+	  jQuery(appendTo).append(widget);
+  }
   widget.show();
   return widget;
 };

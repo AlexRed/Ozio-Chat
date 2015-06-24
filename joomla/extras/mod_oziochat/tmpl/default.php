@@ -87,7 +87,7 @@
 		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/jquery.magnific-popup.js");
 		
 		$document->addScript("http://js.pusher.com/1.12/pusher.min.js");
-		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/PusherChatWidget.js?v=5");
+		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/PusherChatWidget.js?v=6");
 	}
 	
 	//$document->addScript($prefix . "&amp;type=js&amp;filename=map" . $postfix);
@@ -199,11 +199,21 @@
 <div id="fb-root"></div>
 <noscript><?php echo JText::_("OZIOCHAT_JAVASCRIPT_REQUIRED"); ?></noscript>
 <div id="oziochat_module_<?php echo $module->id; ?>_chat_widget" class="oziochat-chat-widget <?php echo $module_class;?>" style="display:none;">
+
+<?php
+$bubble_url = $params->get("bubble_url", "");
+if (!empty($bubble_url)){
+?>
+	<img src="<?php echo htmlspecialchars($bubble_url,ENT_QUOTES,'UTF-8'); ?>" class="oziochat-chat-widget-bubble">
+<?php
+}
+?>
 <div class="oziochat-chat-widget-title">
 <label><?php echo htmlspecialchars($params->get("pusher_channel_name", "channel1"),ENT_QUOTES,'UTF-8'); ?></label>
 
 <div class="oziochat-chat-widget-wnd-btn oziochat-chat-widget-minimize oziochat-chat-widget-wnd-last">_</div>
 <div class="oziochat-chat-widget-wnd-btn oziochat-chat-widget-maximize oziochat-chat-widget-wnd-last">+</div>
+<div class="oziochat-chat-widget-wnd-btn oziochat-chat-widget-popout"><i class="fa fa-expand"></i> <span></span></div>
 <div class="oziochat-chat-widget-wnd-btn oziochat-chat-widget-num-users" style="cursor: auto;"><i class="fa fa-users"></i> <span></span></div>
 
 <div style="clear:both;"></div>

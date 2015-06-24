@@ -7,6 +7,14 @@ $owner = JRequest::getVar("owner", "", "GET");
 $id = JRequest::getVar("id", "", "GET");
 ?>
 
+.oziochat-chat-widget-bubble{
+	position:absolute;
+	height: 78px;
+	top: -78px;
+	right: 0;
+	cursor: pointer;
+	
+}
 
 .oziochat-chat-widget-title {
   border-bottom: 1px solid #EBEBEB;
@@ -110,11 +118,15 @@ $id = JRequest::getVar("id", "", "GET");
   margin:0;
 }
 
+
 .oziochat-chat-widget label {
   font-weight: bold;
   text-align: left;
   padding-top: 6px;
   line-height: 18px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
 
@@ -512,7 +524,11 @@ a.oziochat-chat-logout {
 	background-color: <?php echo $this->Params->get('bgcolor','#F5F5F5'); ?>; /* whiteSmoke */
 }
 
-
+/*
+Hides all "Google's Welcome Back Message" pop up
+http://stackoverflow.com/questions/17159743/how-to-stop-google-sign-in-button-from-popping-up-the-message-welcome-back-yo
+*/
+iframe[src^="https://apis.google.com/u/0/_/widget/oauthflow/toast"] {display: none;}
 
 <?php 
 
