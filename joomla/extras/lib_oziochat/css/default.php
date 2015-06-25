@@ -40,6 +40,7 @@ $id = JRequest::getVar("id", "", "GET");
 	font-weight: bold;
 	text-align: center;
 	line-height: 18px;
+	min-height: 18px;
 
 	padding-left: 8px;
 	padding-right: 8px;

@@ -410,7 +410,7 @@ OzioChatPusherChatWidget.prototype.responsiveAdjust = function(wnd_state,width_s
 	 if (width_set){
 		 self._widget.width(widget_width);
 	 }
-	 self._widget_title_label.css('max-width',Math.max(widget_width-110,10)+'px');
+	 self._widget_title_label.css('max-width',Math.max(widget_width-135,10)+'px');
 	 
 	 var right_width = widget_width - 10 - left_default_width;
 	 if (right_width < 70){
@@ -1491,11 +1491,11 @@ OzioChatPusherChatWidget.prototype._chatMessageReceived = function(data) {
   messageEl.hide();
   this._messagesEl.append(messageEl);
   messageEl.slideDown(function() {
-    if(self._autoScroll) {
+    //if(self._autoScroll) {
       var messageEl = self._messagesEl.get(0);
       //var scrollableHeight = (messageEl.scrollHeight - self._messagesEl.height());
       self._messagesEl.scrollTop(messageEl.scrollHeight);
-    }
+    //}
   });
   
   ++this._itemCount;

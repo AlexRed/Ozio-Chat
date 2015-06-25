@@ -87,7 +87,7 @@
 		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/jquery.magnific-popup.js");
 		
 		$document->addScript("http://js.pusher.com/1.12/pusher.min.js");
-		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/PusherChatWidget.js?v=6");
+		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/PusherChatWidget.js?v=7");
 	}
 	
 	//$document->addScript($prefix . "&amp;type=js&amp;filename=map" . $postfix);
