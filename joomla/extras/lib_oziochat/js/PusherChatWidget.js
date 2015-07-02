@@ -90,7 +90,7 @@ function OzioChatPusherChatWidget(options) {
   this._elemets = [];
   
   this._elemets.push(this._widget.find('.oziochat-chat-widget-content'));
-  this._elemets.push(this._widget.find('.oziochat-chat-widget-content').next());
+  //this._elemets.push(this._widget.find('.oziochat-chat-widget-content').next());
 
   this._wnd_min = this._widget.find('.oziochat-chat-widget-minimize');
   this._wnd_popout = this._widget.find('.oziochat-chat-widget-popout');
@@ -319,8 +319,7 @@ function OzioChatPusherChatWidget(options) {
   });
   self.responsiveAdjust(self._wnd_state,true);
   
-  
-	
+  	
   
 };
 OzioChatPusherChatWidget.instances = [];
@@ -385,14 +384,14 @@ OzioChatPusherChatWidget.prototype.responsiveAdjust = function(wnd_state,width_s
 		}
 	}else{
 		 if (wnd_state=='m'){
-			 full_widget_width = 200;
+			 full_widget_width = 320;
 		 }else{
 
 			 var full_widget_width = 450;
 			if (self._widget.hasClass('oc-logged-in')){
 				full_widget_width= 450;
 			}else{
-				full_widget_width= 300;
+				full_widget_width= 320;
 			}
 		 }
 	}
@@ -431,8 +430,10 @@ OzioChatPusherChatWidget.prototype.responsiveAdjust = function(wnd_state,width_s
 			self._widget_right.show();
 	 }
 	 //HEIGHT
-	 var messagesEl_height = Math.min(Math.max(80,h-(17+30+46+24+self._messageInputEl.outerHeight(true)+38)),max_messages_height);
-	 var widgetLogin_height = Math.min(Math.max(80,h-(7+30+38)),max_messages_height);
+	 var bnnr = self._widget.find('.oziochat-chat-widget-content').next().outerHeight(true);
+	 
+	 var messagesEl_height = Math.min(Math.max(80,h-(17+30+46+25+self._messageInputEl.outerHeight(true)+bnnr)),max_messages_height);
+	 var widgetLogin_height = Math.min(Math.max(80,h-(7+30+bnnr)),max_messages_height);
 	if (self.oc_popout){
 		 self._messagesEl.css('height',messagesEl_height+"px");
 		 self._widget_login.css('height',widgetLogin_height+"px");
@@ -1576,7 +1577,9 @@ OzioChatPusherChatWidget.prototype._startTimeMonitor = function() {
 OzioChatPusherChatWidget._createHTML = function(appendTo,cloneFrom, oc_popout) {
   if (oc_popout){
 	  var widget = jQuery(cloneFrom).clone();
-	  jQuery('body').empty();
+	  //jQuery('body').empty();
+	  jQuery('body > div').hide();
+	  jQuery('body > a').hide();
 	  jQuery(appendTo).append(widget);
   }else{
 	

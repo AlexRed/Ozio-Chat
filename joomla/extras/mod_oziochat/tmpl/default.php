@@ -25,6 +25,8 @@
 	@copyright Copyright (C) 2015 Open Source Solutions S.L.U. All rights reserved.
 	*/
 
+		
+	
 	$stylesheet = pathinfo($params->get("css", "default"));
 	$document->addStyleSheet($prefix . "&amp;type=css&amp;filename=" . $stylesheet["filename"] . $postfix);
 
@@ -35,6 +37,8 @@
 		$document->addStyleSheet(JURI::base(true) . "/libraries/oziochat/css/bootstrap-social.css");
 		$document->addStyleSheet(JURI::base(true) . "/libraries/oziochat/css/magnific-popup.css");
 	}
+	
+
 	
 	if (empty($GLOBALS["oziochat"]["loaded_js"])){
 		$GLOBALS["oziochat"]["loaded_js"]=true;
@@ -87,7 +91,7 @@
 		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/jquery.magnific-popup.js");
 		
 		$document->addScript("http://js.pusher.com/1.12/pusher.min.js");
-		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/PusherChatWidget.js?v=7");
+		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/PusherChatWidget.js?v=8");
 	}
 	
 	//$document->addScript($prefix . "&amp;type=js&amp;filename=map" . $postfix);
@@ -230,7 +234,7 @@ if (!empty($bubble_url)){
 	<div class="oziochat-chat-widget-current-user-image"><img width="32" height="32"></div>
 	<div class="oziochat-chat-widget-current-user-name"></div>
 	
-  <a class="oziochat-btn btn-social-icon btn-github oziochat-chat-logout"><i class="fa fa-sign-out"></i></a>
+  <a class="oziochat-btn btn-social-icon btn-github oziochat-chat-logout"><i class="fa fa-power-off"></i></a>
 	
 </div>
 
@@ -336,6 +340,7 @@ if (!empty($bubble_url)){
 <?php
 	}
 ?>
+
 <div class="oziochat-chat-widget-msg-btn oziochat-chat-widget-emoji"><i class="fa fa-smile-o"></i></div>
 </label>
 
