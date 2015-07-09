@@ -319,15 +319,23 @@ function OzioChatPusherChatWidget(options) {
   });
   self.responsiveAdjust(self._wnd_state,true);
   
-  	
+ 
+	for (var i=0;i<OzioChatPusherChatWidget.oc_gp_signin_callback_to_process.length;i++){
+		console.log('gp_signin_callback after init call');
+		self.gp_signin_callback(OzioChatPusherChatWidget.oc_gp_signin_callback_to_process[i]);
+	}
+ 
   
 };
 OzioChatPusherChatWidget.instances = [];
+OzioChatPusherChatWidget.oc_gp_signin_callback_to_process = [];
 
 function oc_gp_signin_callback(response){
+	console.log('oc_gp_signin_callback');
 	for (var i=0;i<OzioChatPusherChatWidget.instances.length;i++){
 		OzioChatPusherChatWidget.instances[i].gp_signin_callback(response);
 	}
+	OzioChatPusherChatWidget.oc_gp_signin_callback_to_process.push(response);
 }
 OzioChatPusherChatWidget.prototype._animateMaximize = function(){
 	
@@ -1103,9 +1111,11 @@ OzioChatPusherChatWidget.prototype.gp_signin_callback = function(authResult) {
 		//gapi.client.load('plus', 'v1', function(){                           
 		 //});  
 		 if (self.gp_pending){
+			console.log("GP pending");
 			 return;
 		 }
 	     self.gp_pending=true;
+			console.log("GP set to pending");
 
 		//OR to see the Public Posts result in console
 
@@ -1113,9 +1123,13 @@ OzioChatPusherChatWidget.prototype.gp_signin_callback = function(authResult) {
 		 request.execute(function(response) {                                       
 		 
 			if (!response || response.error) {
+				console.log("GP error");
+				console.log(response);
+				
 				//errore strano
 				self._show_login_widget_button('googleplus','login');
 			}else{
+				console.log("GP ok");
 				  oc_cookie.set('oc_googleplus_code',authResult['code'], { path: '/' });
 				  oc_cookie.set('oc_user_id_googleplus','googleplus-'+response.id, { path: '/' });
 				  jQuery.ajax({
@@ -1130,6 +1144,7 @@ OzioChatPusherChatWidget.prototype.gp_signin_callback = function(authResult) {
 						self.gp_pending=false;
 					},
 					error:function(){
+						console.log("GP ajax error");
 						//effettuo il logout
 						self._logout_click();
 					},

@@ -91,7 +91,10 @@
 		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/jquery.magnific-popup.js");
 		
 		$document->addScript("http://js.pusher.com/1.12/pusher.min.js");
-		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/PusherChatWidget.js?v=8");
+		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/PusherChatWidget.js?v=9");
+		
+		$document->addScript("https://apis.google.com/js/client:plusone.js");
+		
 	}
 	
 	//$document->addScript($prefix . "&amp;type=js&amp;filename=map" . $postfix);
@@ -184,13 +187,13 @@
         });
 		
 		
-		
+		/*
 		(function() {
 			   var po = document.createElement(\'script\'); po.type = \'text/javascript\'; po.async = true;
 			   po.src = \'https://apis.google.com/js/client:plusone.js\';
 			   var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(po, s);
 			 })();
-		
+		*/
 		
 		
       });
