@@ -56,7 +56,7 @@ window.onload = function()
 	new_element.innerHTML =
 	'<img style="margin:0; float:left' + ';" src="../media/oziochat/images/cross-circle-frame.png">' +
 	'<span style="padding-left' + ':5px; line-height:16px;">' +
-	'<?php echo($language->_("COM_OZIOCHAT_PURCHASE")); ?> <a href="http://www.opensourcesolutions.es/ext/oziochat.html" target="_blank"><?php echo($language->_("COM_OZIOCHAT_BUYNOW")); ?></a>' +
+	'<?php echo($language->_("COM_OZIOCHAT_PURCHASE")); ?> <a href="http://www.opensourcesolutions.es/ext/ozio-chat.html" target="_blank"><?php echo($language->_("COM_OZIOCHAT_BUYNOW")); ?></a>' +
 	'</span>';
 
 	if (container) container.appendChild(new_element);

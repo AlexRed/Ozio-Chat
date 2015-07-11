@@ -35,7 +35,7 @@
 
 <?php if ($GLOBALS["oziochat"]["version"][strlen($GLOBALS["oziochat"]["version"]) - 1] == " ") { ?>
 	<div style="float:left;margin-right:16px;margin-left:10px;">
-		<a href="http://www.opensourcesolutions.es/ext/oziochat.html" target="_blank">
+		<a href="http://www.opensourcesolutions.es/ext/ozio-chat.html" target="_blank">
 			<img src="../media/oziochat/images/buy_now.jpg" border="0" alt="Buy now">
 		</a>
 	</div>
