@@ -2,10 +2,10 @@
 <extension type="library" version="2.5" method="upgrade">
 	<name>OzioChat</name>
 	<creationDate>13/02/2012</creationDate>
-	<author>Open Source Solutions SLU</author>
+	<author>Open Source Solutions SL</author>
 	<authorEmail>info@opensourcesolutions.es</authorEmail>
 	<authorUrl>http://www.opensourcesolutions.es/</authorUrl>
-	<copyright>Open Source Solutions SLU</copyright>
+	<copyright>Open Source Solutions SL</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<version>1.0.0</version>
 	<libraryname>oziochat</libraryname>
