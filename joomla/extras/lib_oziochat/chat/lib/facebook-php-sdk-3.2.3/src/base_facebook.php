@@ -1,4 +1,4 @@
-<?php
+<?php defined('_JEXEC') or die('Restricted access');
 /**
  * Copyright 2011 Facebook, Inc.
  *

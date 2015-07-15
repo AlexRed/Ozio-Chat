@@ -1,4 +1,4 @@
-<?php
+<?php defined('_JEXEC') or die('Restricted access');
 
 require_once realpath(dirname(__FILE__) . '/../../autoload.php');
 
