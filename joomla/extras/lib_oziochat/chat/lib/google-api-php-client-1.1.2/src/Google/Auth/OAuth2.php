@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access');
+<?php
 /*
  * Copyright 2008 Google Inc.
  *
