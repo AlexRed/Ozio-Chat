@@ -45,6 +45,9 @@ use Facebook\FacebookJavaScriptLoginHelper;
 
 class OzioChatServerSideChat
 {
+	protected $cachedir;
+	public $CacheLifetime;
+	
 	public function returnError($msg,$http_code=403){
 		header('Cache-Control: no-cache, must-revalidate');
 		if ($http_code==400){
@@ -57,7 +60,7 @@ class OzioChatServerSideChat
 		die();
 		
 	}
-	public function redirect($redirect_url,$error){
+	public function redirect($redirect_url,$error=""){
 		JFactory::getApplication()->redirect($redirect_url);
 		JFactory::getApplication()->close();
 		die();
@@ -68,7 +71,7 @@ class OzioChatServerSideChat
 		
 		$redirect_url=base64_decode($_REQUEST['return']);
 		
-		$session =& JFactory::getSession();
+		$session =JFactory::getSession();
 		$oauth_response=$session->get("oc_twitter_oauth_response");
 		if (empty($oauth_response) || empty($oauth_response['oauth_token']) || empty($oauth_response['oauth_token_secret'])){
 			$this->redirect($redirect_url,"Twitter: missing oc_twitter_oauth_response");
@@ -151,7 +154,7 @@ class OzioChatServerSideChat
 		//error_log(var_export($response,true)."\n",3,'C:\workspace\php-errors.log');
 		
 		//metto in sessione il token e il secret
-		$session =& JFactory::getSession();
+		$session =JFactory::getSession();
 		$session->set("oc_twitter_oauth_response",$response);
 		
 		
@@ -169,6 +172,12 @@ class OzioChatServerSideChat
 	
 	public function Process()
 	{
+		
+		$this->cachedir = JPATH_ROOT . "/cache/" . get_class($this);
+		file_exists($this->cachedir) or mkdir($this->cachedir);
+		//$this->CacheLifetime = intval($this->Params->get("cache_lifetime", 2)) * 60;  // Converte da minuti in secondi
+		$this->CacheLifetime = 2 * 60;  // Converte da minuti in secondi 2 minuti
+		
 		$tw_consumer_key=trim($this->Params->get("twitter_consumer_key", ""));
 		$tw_consumer_secret=trim($this->Params->get("twitter_consumer_secret", ""));
 		
@@ -214,15 +223,39 @@ class OzioChatServerSideChat
 			
 			if ($channel_type == 'presence'){
 			
-				$pusher = new Pusher($app_key, $app_secret, $app_id);
+				//Caching! QUi
 				
-				//echo json_encode($pusher->get('/channels/'.$verify_channel.'/members'));
+				$cache_expired = true;
+				$num_users_connected= 0;
 				
-				$users = $pusher->get('/channels/'.$verify_channel.'/users');
-				$users = json_decode($users['body'],true);
+				$cachefile=$this->cachedir . "/" .$this->getHash(array($app_key,$verify_channel),array($app_secret,$app_id));
+				if (file_exists($cachefile)){
+
+					$age = time() - filemtime($cachefile);
+					$lt=$this->CacheLifetime;
+					
+					if ($age < $lt){
+						$num_users_connected = file_get_contents($cachefile);
+						$cache_expired = false;
+					}
+				}
+				if ($cache_expired){
+					
+				
+					$pusher = new Pusher($app_key, $app_secret, $app_id);
+					
+					//echo json_encode($pusher->get('/channels/'.$verify_channel.'/members'));
+					
+					$users = $pusher->get('/channels/'.$verify_channel.'/users');
+					$users = json_decode($users['body'],true);
+					
+					$num_users_connected = count($users['users']);
+					
+					file_put_contents($cachefile,$num_users_connected);
+				}
 				
 				//error_log(var_export($users,true)."\n",3,'C:\workspace\php-errors.log');
-				echo json_encode(array('c'=>count($users['users'])));
+				echo json_encode(array('c'=>$num_users_connected));
 
 				JFactory::getApplication()->close();
 			}else{
@@ -298,7 +331,7 @@ class OzioChatServerSideChat
 		
 		$this->logged_in=false;
 		$this->actor=array();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		if (isset($_POST['logout'])){
 			$session_var_name='oc_user_id_'.$_POST['logout'];
 			if ($session->has($session_var_name)){
@@ -448,6 +481,17 @@ class OzioChatServerSideChat
 			
 	}
 	
+	private function getHash($public_array,$pivate_array=array()){
+		$parts=array();
+		foreach($public_array as $p){
+			$parts[]=substr(preg_replace('/[^a-zA-Z0-9-]/', '_', $p),0,4);
+		}
+		$parts[]=substr(md5(implode('',array_merge($public_array,$pivate_array))),0,10);
+		$hash=implode('-',$parts);
+		return $hash;
+	}
+	
+	
 	private function anonymousLogin($nickname,$email){
 		if (!empty($nickname)){
 			$this->logged_in=true;
@@ -482,7 +526,7 @@ class OzioChatServerSideChat
 		//verifico le credenziali
 		$tw_consumer_key=trim($this->Params->get("twitter_consumer_key", ""));
 		$tw_consumer_secret=trim($this->Params->get("twitter_consumer_secret", ""));
-		$session =& JFactory::getSession();
+		$session =JFactory::getSession();
 		
 		$response=$session->get("oc_twitter_oauth_access_token_response");
 		

@@ -162,49 +162,60 @@
 		//$document->setMetaData( 'google-signin-accesstype', 'offline' );
 	}
 	$infobox_msg=trim($params->get("infobox_msg", ""));
-	$document->addScriptDeclaration('
-	  jQuery( document ).ready(function( $ ) {
-        var chatWidget = new OzioChatPusherChatWidget({
-          cloneFrom: "#oziochat_'.$ns.'_chat_widget",
-		  chatEndPoint: '.json_encode($chat_end_point).',
-		  channelName:'.json_encode($params->get("pusher_channel_name", "channel1")).',
-			i18n: {
-				\'please supply a nickname\':'.json_encode(JText::_("OZIOCHAT_SUPPLY_NICKNAME")).',
-				\'please supply a chat message\':'.json_encode(JText::_("OZIOCHAT_SUPPLY_CHATMESSAGE")).'
-			},
-		  joomlaLoggedIn:'.json_encode($joomlaLoggedIn).',
-		  fbAppId:'.json_encode($fb_app_id).',
-		  pusherAppKey:'.json_encode($pusher_app_key).',
-		  anonymous_login:'.json_encode($anonymous_login).',
-		  joomla_login:'.json_encode($joomla_login).',
-		  facebook_login:'.json_encode($facebook_login).',
-		  googleplus_login:'.json_encode($googleplus_login).',
-		  twitter_login:'.json_encode($twitter_login).',
-		  infobox_msg:'.json_encode($infobox_msg).',
-		  halign:'.json_encode($params->get('align', 'left')).',
-		  debug:false
-		  
-        });
-		
-		
-		/*
-		(function() {
-			   var po = document.createElement(\'script\'); po.type = \'text/javascript\'; po.async = true;
-			   po.src = \'https://apis.google.com/js/client:plusone.js\';
-			   var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(po, s);
-			 })();
-		*/
-		
-		
-      });
-
-	');	
 	
+	
+	
+	
+	$jinput = JFactory::getApplication()->input;
+	$oc_close_window = $jinput->get->get('oc_close_window', 0, 'INT');
+	if ($oc_close_window==1){
+		$document->addScriptDeclaration('window.opener.oc_tw_signin_callback(window);');
+	}else{
+		
+		$document->addScriptDeclaration('
+		  jQuery( document ).ready(function( $ ) {
+			var chatWidget = new OzioChatPusherChatWidget({
+			  cloneFrom: "#oziochat_'.$ns.'_chat_widget",
+			  chatEndPoint: '.json_encode($chat_end_point).',
+			  channelName:'.json_encode($params->get("pusher_channel_name", "channel1")).',
+				i18n: {
+					\'please supply a nickname\':'.json_encode(JText::_("OZIOCHAT_SUPPLY_NICKNAME")).',
+					\'please supply a chat message\':'.json_encode(JText::_("OZIOCHAT_SUPPLY_CHATMESSAGE")).'
+				},
+			  joomlaLoggedIn:'.json_encode($joomlaLoggedIn).',
+			  fbAppId:'.json_encode($fb_app_id).',
+			  pusherAppKey:'.json_encode($pusher_app_key).',
+			  anonymous_login:'.json_encode($anonymous_login).',
+			  joomla_login:'.json_encode($joomla_login).',
+			  facebook_login:'.json_encode($facebook_login).',
+			  googleplus_login:'.json_encode($googleplus_login).',
+			  twitter_login:'.json_encode($twitter_login).',
+			  infobox_msg:'.json_encode($infobox_msg).',
+			  halign:'.json_encode($params->get('align', 'left')).',
+			  debug:false
+			  
+			});
+			
+			
+			/*
+			(function() {
+				   var po = document.createElement(\'script\'); po.type = \'text/javascript\'; po.async = true;
+				   po.src = \'https://apis.google.com/js/client:plusone.js\';
+				   var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(po, s);
+				 })();
+			*/
+			
+			
+		  });
+
+		');	
+	}
 	
 	$module_class='oziochat_module'.$params->get("moduleclass_sfx", "");
 ?>
 <div id="fb-root"></div>
 <noscript><?php echo JText::_("OZIOCHAT_JAVASCRIPT_REQUIRED"); ?></noscript>
+<div style="display:none;">ozio_chat_oss</div>
 <div id="oziochat_module_<?php echo $module->id; ?>_chat_widget" class="oziochat-chat-widget <?php echo $module_class;?>" style="display:none;">
 
 <?php
@@ -267,7 +278,31 @@ if (!empty($bubble_url)){
 	<div class="oziochat-chat-login-loader oziochat-chat-loader-joomla">
 	</div>
   <a class="oziochat-btn oziochat-btn-block btn-social btn-microsoft oziochat-chat-joomla-login">
-	<i class="fa fa-joomla"></i> <?php echo JText::_("OZIOCHAT_JOOMLA_LOGIN"); ?>
+  <?php
+  
+	$app    = JFactory::getApplication();
+	$favicon_positions = array(
+		array(JPATH_ROOT.'/templates/'.$app->getTemplate().'/favicon.ico',JURI::root().'templates/'.$app->getTemplate().'/favicon.ico'),
+		array(JPATH_ROOT.'/favicon.ico',JURI::root().'favicon.ico'),
+	);
+  
+	$favicon=false;
+	foreach ($favicon_positions as $pos){
+		if (file_exists($pos[0])){
+			$favicon = $pos;
+			break;
+		}
+	}
+  
+	if ($favicon!==false){
+		echo '<i class="fa"><img class="fa-img-favicon" src="'.$favicon[1].'"></i>';
+	}else{
+		echo '<i class="fa fa-joomla"></i>';
+	}
+  
+	echo JText::_("OZIOCHAT_JOOMLA_LOGIN");
+
+  ?>
   </a>
 	<div class="oziochat-chat-widget-user oziochat-chat-widget-joomla">
 		<a class="oziochat-btn btn-social-icon btn-microsoft oziochat-chat-enter"><i class="fa fa-joomla"></i></a>

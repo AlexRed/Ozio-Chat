@@ -63,7 +63,11 @@ abstract class SmartLoader
 	protected function load()
 	{
 		// Complete the script name with its path
-		$filename = JRequest::getVar("filename", "", "GET");
+		//$filename = JRequest::getVar("filename", "", "GET");
+		
+		$jinput = JFactory::getApplication()->input;
+		$filename = $jinput->get->get('filename', '', 'PATH');
+		
 		// Only admit lowercase a-z, underscore and minus. Forbid numbers, symbols, slashes and other stuff.
 		// For your security, *don't* touch the following regular expression.
 		preg_match('/^[a-z_-]+$/', $filename) or $filename = "invalid";
@@ -138,7 +142,12 @@ class jsonSmartLoader extends SmartLoader
 
 	protected function content_header()
 	{
-		echo "var data_" . JRequest::getVar("owner", "", "GET") . "_" . JRequest::getVar("id", 0, "GET") . "={\n";
+		$owner = 'module';//JRequest::getVar("owner", "", "GET");
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get->get('id', '', 'INT');
+		
+		
+		echo "var data_" . $owner . "_" . $id . "={\n";
 	}
 
 	protected function content_footer()

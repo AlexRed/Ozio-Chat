@@ -118,6 +118,7 @@ function OzioChatPusherChatWidget(options) {
   this._widget_emoj_panel = this._widget.find('.oziochat-chat-emoji');
   this._widget_emoj_panel.hide();
 
+  this._wnd_num_users = this._widget.find('.oziochat-chat-widget-num-users'); 
 
   this._show_login_widget_button('anonymous','none');
   this._show_login_widget_button('joomla','none');
@@ -298,7 +299,6 @@ function OzioChatPusherChatWidget(options) {
 	self.fb_pending=false;
 	self.tw_pending=false;
 	
-  this._wnd_num_users = this._widget.find('.oziochat-chat-widget-num-users'); 
   this._num_logged_in = 0;
   this._get_num_connected();
 	
@@ -592,6 +592,8 @@ OzioChatPusherChatWidget.prototype._show_loggedin = function(loggedin) {
 		self._widget_messages.show();
 		self._widget_input.show();
 
+		self._wnd_num_users.hide();
+		
 		self._widget_login.hide();
 		//if(self._autoScroll) {
 		  var messageEl = self._messagesEl.get(0);
@@ -607,6 +609,8 @@ OzioChatPusherChatWidget.prototype._show_loggedin = function(loggedin) {
 		self._widget_users_list.hide();
 		self._widget_messages.hide();
 		self._widget_input.hide();
+
+		self._wnd_num_users.show();
 
 		self._widget_login.show();
 
@@ -1315,6 +1319,59 @@ OzioChatPusherChatWidget.prototype._logoutTW_click = function() {
 	self._show_login_widget_button('twitter','login');
 }
 
+OzioChatPusherChatWidget.prototype._addParameter = function(url, parameterName, parameterValue, atStart/*Add param before others*/) {
+    replaceDuplicates = true;
+    if(url.indexOf('#') > 0){
+        var cl = url.indexOf('#');
+        urlhash = url.substring(url.indexOf('#'),url.length);
+    } else {
+        urlhash = '';
+        cl = url.length;
+    }
+    sourceUrl = url.substring(0,cl);
+
+    var urlParts = sourceUrl.split("?");
+    var newQueryString = "";
+
+    if (urlParts.length > 1)
+    {
+        var parameters = urlParts[1].split("&");
+        for (var i=0; (i < parameters.length); i++)
+        {
+            var parameterParts = parameters[i].split("=");
+            if (!(replaceDuplicates && parameterParts[0] == parameterName))
+            {
+                if (newQueryString == "")
+                    newQueryString = "?";
+                else
+                    newQueryString += "&";
+                newQueryString += parameterParts[0] + "=" + (parameterParts[1]?parameterParts[1]:'');
+            }
+        }
+    }
+    if (newQueryString == "")
+        newQueryString = "?";
+
+    if(atStart){
+        newQueryString = '?'+ parameterName + "=" + parameterValue + (newQueryString.length>1?'&'+newQueryString.substring(1):'');
+    } else {
+        if (newQueryString !== "" && newQueryString != '?')
+            newQueryString += "&";
+        newQueryString += parameterName + "=" + (parameterValue?parameterValue:'');
+    }
+    return urlParts[0] + newQueryString + urlhash;
+};
+
+function oc_tw_signin_callback(wnd){
+	wnd.close();
+	console.log('oc_tw_signin_callback');
+	//window.location.reload();
+	for (var i=0;i<OzioChatPusherChatWidget.instances.length;i++){
+		OzioChatPusherChatWidget.instances[i]._loadTW();
+	}
+	
+}
+
 OzioChatPusherChatWidget.prototype._loginTW_click = function() {
 	var self=this;
 	if (self.logintw_click_pending){
@@ -1324,13 +1381,15 @@ OzioChatPusherChatWidget.prototype._loginTW_click = function() {
 
 	oc_cookie.set('oc_logged_in','twitter', { path: '/' });
 
+	var newWindow = window.open("", '', 'width=700,height=500');
+	
 	jQuery.ajax({
 		url: self.settings.chatEndPoint,
 		type: 'post',
 		dataType: 'json',
 		data: {
 		  'tw_get': 'loginurl',
-		  'tw_return': window.location.href,
+		  'tw_return': self._addParameter(window.location.href,"oc_close_window",1,false),
 		  'tw_endpoint': self.settings.chatEndPoint
 		},
 		complete:function(){
@@ -1338,13 +1397,15 @@ OzioChatPusherChatWidget.prototype._loginTW_click = function() {
 			self.logintw_click_pending=false;
 		},
 		error:function(){
+			newWindow.close();
 			//effettuo il logout
 			self._logout_click();
 		},
 		success:function(result){
 			console.log("TW twitter_get success");
 			//redirect alla login
-			window.location.replace(result.loginurl);
+			//window.location.replace(result.loginurl);
+			newWindow.location = result.loginurl;
 		}
 	});			
 	

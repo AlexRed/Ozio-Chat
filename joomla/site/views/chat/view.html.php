@@ -56,7 +56,11 @@ class OzioChatViewChat extends JViewLegacy
 	{
 		$query->select('`params`');
 		$query->from('`#__modules`');
-		$query->where("`id` = " . intval(JRequest::getVar("id", 0, "GET")));
+		
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get->get('id', 0, 'INT');
+		
+		$query->where("`id` = " . intval($id));
 		$query->where("`module` = 'mod_oziochat'");
 	}
 

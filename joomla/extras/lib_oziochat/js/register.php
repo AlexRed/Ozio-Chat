@@ -29,7 +29,8 @@
 window.onload = function()
 {
 	<?php
-	$id = JRequest::getVar("id", "", "GET");
+	$jinput = JFactory::getApplication()->input;
+	$id = $jinput->get->get('id', '', 'INT');
 
 	require_once(JPATH_ROOT . '/' . "libraries" . '/' . "oziochat" . '/' . "language" . '/' . "oziochat.inc");
 	$language = JFactory::getLanguage();

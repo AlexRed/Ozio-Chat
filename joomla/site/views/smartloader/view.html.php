@@ -41,7 +41,8 @@ class OzioChatViewSmartLoader extends JViewLegacy
 		$owner = 'module';
 		
 		
-		$type = JRequest::getVar("type", "", "GET");
+		$jinput = JFactory::getApplication()->input;
+		$type = $jinput->get->get('type', '', 'STR');
 		if (!in_array($type,array('css','js'))){
 			die();
 		}
