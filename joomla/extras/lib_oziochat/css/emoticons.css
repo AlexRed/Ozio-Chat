@@ -1,0 +1,112 @@
+.oziochat-chat-widget .emoticon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    text-indent: -10000px;
+    overflow: hidden;
+    cursor: text;
+    background: url('emoticons.png') no-repeat;
+    text-align: left;
+	vertical-align: middle;
+}
+.oziochat-chat-widget .emoticon-smile { background-position: 0 0; }
+.oziochat-chat-widget .emoticon-sad-smile { background-position: 0 -29px; }
+.oziochat-chat-widget .emoticon-big-smile { background-position: 0 -58px; }
+.oziochat-chat-widget .emoticon-cool { background-position: 0 -87px; }
+.oziochat-chat-widget .emoticon-surprised { background-position: 0 -116px; }
+.oziochat-chat-widget .emoticon-wink { background-position: 0 -145px; }
+.oziochat-chat-widget .emoticon-crying { background-position: 0 -174px; }
+.oziochat-chat-widget .emoticon-sweating { background-position: 0 -203px; }
+.oziochat-chat-widget .emoticon-speechless { background-position: 0 -232px; }
+.oziochat-chat-widget .emoticon-kiss { background-position: 0 -261px; }
+.oziochat-chat-widget .emoticon-tongue-out { background-position: 0 -290px; }
+.oziochat-chat-widget .emoticon-blush { background-position: 0 -319px; }
+.oziochat-chat-widget .emoticon-wondering { background-position: 0 -348px; }
+.oziochat-chat-widget .emoticon-sleepy { background-position: 0 -377px; }
+.oziochat-chat-widget .emoticon-dull { background-position: 0 -406px; }
+.oziochat-chat-widget .emoticon-in-love { background-position: 0 -435px; }
+.oziochat-chat-widget .emoticon-evil-grin { background-position: 0 -464px; }
+.oziochat-chat-widget .emoticon-talking { background-position: 0 -493px; }
+.oziochat-chat-widget .emoticon-yawn { background-position: 0 -522px; }
+.oziochat-chat-widget .emoticon-puke { background-position: 0 -551px; }
+.oziochat-chat-widget .emoticon-doh { background-position: 0 -580px; }
+.oziochat-chat-widget .emoticon-angry { background-position: 0 -609px; }
+.oziochat-chat-widget .emoticon-speechless-1 { background-position: 0 -638px; }
+.oziochat-chat-widget .emoticon-it-wasnt-me { background-position: 0 -667px; }
+.oziochat-chat-widget .emoticon-kiss-1 { background-position: 0 -696px; }
+.oziochat-chat-widget .emoticon-party { background-position: 0 -725px; }
+.oziochat-chat-widget .emoticon-tongue-out-1 { background-position: 0 -754px; }
+.oziochat-chat-widget .emoticon-wondering-1 { background-position: 0 -783px; }
+.oziochat-chat-widget .emoticon-worried { background-position: 0 -812px; }
+.oziochat-chat-widget .emoticon-mmm { background-position: 0 -841px; }
+.oziochat-chat-widget .emoticon-sleepy-1 { background-position: 0 -870px; }
+.oziochat-chat-widget .emoticon-dull-1 { background-position: 0 -899px; }
+.oziochat-chat-widget .emoticon-nerd { background-position: 0 -928px; }
+.oziochat-chat-widget .emoticon-evil-grin-1 { background-position: 0 -957px; }
+.oziochat-chat-widget .emoticon-lips-sealed { background-position: 0 -986px; }
+.oziochat-chat-widget .emoticon-hi { background-position: 0 -1015px; }
+.oziochat-chat-widget .emoticon-call { background-position: 0 -1044px; }
+.oziochat-chat-widget .emoticon-devil { background-position: 0 -1073px; }
+.oziochat-chat-widget .emoticon-angel { background-position: 0 -1102px; }
+.oziochat-chat-widget .emoticon-angry-1 { background-position: 0 -1131px; }
+.oziochat-chat-widget .emoticon-envy { background-position: 0 -1160px; }
+.oziochat-chat-widget .emoticon-worried-1 { background-position: 0 -1189px; }
+.oziochat-chat-widget .emoticon-nerd-1 { background-position: 0 -1218px; }
+.oziochat-chat-widget .emoticon-wait { background-position: 0 -1247px; }
+.oziochat-chat-widget .emoticon-bear { background-position: 0 -1276px; }
+.oziochat-chat-widget .emoticon-lips-sealed-1 { background-position: 0 -1305px; }
+.oziochat-chat-widget .emoticon-make-up { background-position: 0 -1334px; }
+.oziochat-chat-widget .emoticon-giggle { background-position: 0 -1363px; }
+.oziochat-chat-widget .emoticon-clapping { background-position: 0 -1392px; }
+.oziochat-chat-widget .emoticon-thinking { background-position: 0 -1421px; }
+.oziochat-chat-widget .emoticon-bow { background-position: 0 -1450px; }
+.oziochat-chat-widget .emoticon-rofl { background-position: 0 -1479px; }
+.oziochat-chat-widget .emoticon-whew { background-position: 0 -1508px; }
+.oziochat-chat-widget .emoticon-happy { background-position: 0 -1537px; }
+.oziochat-chat-widget .emoticon-smirk { background-position: 0 -1566px; }
+.oziochat-chat-widget .emoticon-nod { background-position: 0 -1595px; }
+.oziochat-chat-widget .emoticon-shake { background-position: 0 -1624px; }
+.oziochat-chat-widget .emoticon-punch { background-position: 0 -1653px; }
+.oziochat-chat-widget .emoticon-emo { background-position: 0 -1682px; }
+.oziochat-chat-widget .emoticon-yes { background-position: 0 -1711px; }
+.oziochat-chat-widget .emoticon-no { background-position: 0 -1740px; }
+.oziochat-chat-widget .emoticon-handshake { background-position: 0 -1769px; }
+.oziochat-chat-widget .emoticon-skype { background-position: 0 -1798px; }
+.oziochat-chat-widget .emoticon-heart { background-position: 0 -1827px; }
+.oziochat-chat-widget .emoticon-broken-heart { background-position: 0 -1856px; }
+.oziochat-chat-widget .emoticon-mail { background-position: 0 -1885px; }
+.oziochat-chat-widget .emoticon-flower { background-position: 0 -1914px; }
+.oziochat-chat-widget .emoticon-rain { background-position: 0 -1943px; }
+.oziochat-chat-widget .emoticon-sun { background-position: 0 -1972px; }
+.oziochat-chat-widget .emoticon-time { background-position: -29px 0; }
+.oziochat-chat-widget .emoticon-music { background-position: -29px -29px; }
+.oziochat-chat-widget .emoticon-movie { background-position: -29px -58px; }
+.oziochat-chat-widget .emoticon-phone { background-position: -29px -87px; }
+.oziochat-chat-widget .emoticon-coffee { background-position: -29px -116px; }
+.oziochat-chat-widget .emoticon-pizza { background-position: -29px -145px; }
+.oziochat-chat-widget .emoticon-cash { background-position: -29px -174px; }
+.oziochat-chat-widget .emoticon-muscle { background-position: -29px -203px; }
+.oziochat-chat-widget .emoticon-cake { background-position: -29px -232px; }
+.oziochat-chat-widget .emoticon-beer { background-position: -29px -261px; }
+.oziochat-chat-widget .emoticon-drink { background-position: -29px -290px; }
+.oziochat-chat-widget .emoticon-dance { background-position: -29px -319px; }
+.oziochat-chat-widget .emoticon-ninja { background-position: -29px -348px; }
+.oziochat-chat-widget .emoticon-star { background-position: -29px -377px; }
+.oziochat-chat-widget .emoticon-mooning { background-position: -29px -406px; }
+.oziochat-chat-widget .emoticon-middlefinger { background-position: -29px -435px; }
+.oziochat-chat-widget .emoticon-bandit { background-position: -29px -464px; }
+.oziochat-chat-widget .emoticon-drunk { background-position: -29px -493px; }
+.oziochat-chat-widget .emoticon-smoke { background-position: -29px -522px; }
+.oziochat-chat-widget .emoticon-toivo { background-position: -29px -551px; }
+.oziochat-chat-widget .emoticon-rock { background-position: -29px -580px; }
+.oziochat-chat-widget .emoticon-headbang { background-position: -29px -609px; }
+.oziochat-chat-widget .emoticon-bug { background-position: -29px -638px; }
+.oziochat-chat-widget .emoticon-fubar { background-position: -29px -666px; }
+.oziochat-chat-widget .emoticon-poolparty { background-position: -29px -695px; }
+.oziochat-chat-widget .emoticon-swear { background-position: -29px -724px; }
+.oziochat-chat-widget .emoticon-tmi { background-position: -29px -753px; }
+.oziochat-chat-widget .emoticon-heidy { background-position: -29px -782px; }
+.oziochat-chat-widget .emoticon-myspace { background-position: -29px -811px; }
+.oziochat-chat-widget .emoticon-malthe { background-position: -29px -840px; }
+.oziochat-chat-widget .emoticon-tauri { background-position: -29px -869px; }
+.oziochat-chat-widget .emoticon-priidu { background-position: -29px -898px; }

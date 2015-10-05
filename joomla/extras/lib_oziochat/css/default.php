@@ -251,11 +251,13 @@ $id = $jinput->get->get('id', '', 'INT');
     user-select: none;  
 	cursor: pointer;
 	display: inline-block;
-	width:20px;
+/*	width:20px;
 	height:20px;
+*/
 	vertical-align:middle;
 	position:relative;
 }
+/*
 .oziochat-chat-widget .oziochat-chat-emoji span:hover{
 	font-size:20px;	
 }
@@ -268,7 +270,7 @@ $id = $jinput->get->get('id', '', 'INT');
 	font-size: 14px;
 	line-height:16px;
 }
-
+*/
 .oziochat-chat-widget ul.oziochat-chat-activity-stream li.waiting {
   height: 100%;
   font-weight: bold;
