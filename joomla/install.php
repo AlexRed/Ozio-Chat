@@ -206,11 +206,6 @@ class com_oziochatInstallerScript
 		'<style type="text/css">' .
 		'@import url("' . JURI::base(true) . "/components/" . $this->component_name . "/css/install.css" . '");' .
 		'</style>' .
-		'<img ' .
-		'class="install_logo" width="128" height="128" ' .
-		'src="' . (string)$manifest->authorUrl . 'logo/' . $this->extension_name . "-" . $this->event . '-logo.jpg" ' .
-		'alt="' . JText::_((string)$manifest->name) . ' Logo" ' .
-		'/>' .
 		'<div class="install_container">' .
 		'<div class="install_row">' .
 		'<h2 class="install_title">' . JText::_((string)$manifest->name) . '</h2>' .
