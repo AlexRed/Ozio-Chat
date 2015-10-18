@@ -94,7 +94,7 @@
 		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/emoticons.js");
 		
 		$document->addScript("http://js.pusher.com/1.12/pusher.min.js");
-		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/PusherChatWidget.js?v=9");
+		$document->addScript(JURI::base(true) . "/libraries/oziochat/js/PusherChatWidget.js?v=10");
 		
 		$document->addScript("https://apis.google.com/js/client:plusone.js");
 		

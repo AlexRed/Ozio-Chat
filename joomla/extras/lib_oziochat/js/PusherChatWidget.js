@@ -11,6 +11,7 @@ if (!window.console)
 function OzioChatPusherChatWidget(options) {
   OzioChatPusherChatWidget.instances.push(this);
   var self = this;
+  this.is_detached= false;
   
     var searchString = window.location.search.substring(1),
       i, val, params = searchString.split("&");
@@ -218,6 +219,53 @@ function OzioChatPusherChatWidget(options) {
 	  }
 	  
 	var w =window.open(window.location.href+param, '', 'width=450,height=500');
+	
+	//distruggo il widget corrente
+	
+		self.is_detached = true;
+			
+		//rimuovo da instances this
+		for(var oci = OzioChatPusherChatWidget.instances.length - 1; oci >= 0; oci--) {
+			if(OzioChatPusherChatWidget.instances[oci] === self) {
+			   OzioChatPusherChatWidget.instances.splice(oci, 1);
+			}
+		}		
+
+		//remove
+		jQuery(window).off('resize.oziochat');
+
+
+		if (self.vitality_timer!==null){
+			clearTimeout(self.vitality_timer);
+			self.vitality_timer=null;
+		}
+
+
+		//decarico la chat
+		if (self._pusher){
+			self._pusher.unsubscribe("presence-"+self.settings.channelName);
+			self._pusher.unsubscribe("private-"+self.settings.channelName);
+		}
+		//this._pusher.disconnect();
+		self._pusher = null;
+		self._chatChannel = null;
+		self._presenceChannel = null;
+
+		//tolgo gli elementi del DOM
+		self._widget.remove();
+		
+		//tolgo i vari reference		
+		for(var propertyName in self) {
+			if (self.hasOwnProperty(propertyName) && propertyName!='is_detached'){
+				self[propertyName]=null;
+				delete self[propertyName];
+			}
+		}
+
+	
+	
+	
+	
   });
   this._logout_btn=this._widget.find('.oziochat-chat-logout');
   this._logout_btn.click(function(){
@@ -321,8 +369,7 @@ function OzioChatPusherChatWidget(options) {
   this._startTimeMonitor();
   
   
-  
-  jQuery(window).resize(function(){
+  jQuery(window).on('resize.oziochat',function(){
 	self.responsiveAdjust(self._wnd_state,true);
   });
   self.responsiveAdjust(self._wnd_state,true);
@@ -446,7 +493,8 @@ OzioChatPusherChatWidget.prototype.responsiveAdjust = function(wnd_state,width_s
 			self._widget_right.show();
 	 }
 	 //HEIGHT
-	 var bnnr = self._widget.find('.oziochat-chat-widget-content').next().outerHeight(true);
+	 //var bnnr = self._widget.find('.oziochat-chat-widget-content').next('ins').outerHeight(true);
+	 var bnnr = self._widget.find('.oziochat-chat-widget-content').parent().children('ins').outerHeight(true);
 	 
 	 var messagesEl_height = Math.min(Math.max(80,h-(17+30+46+25+self._messageInputEl.outerHeight(true)+bnnr)),max_messages_height);
 	 var widgetLogin_height = Math.min(Math.max(80,h-(7+30+bnnr)),max_messages_height);
@@ -636,7 +684,9 @@ OzioChatPusherChatWidget.prototype.restart_vitality_timer = function(){
 		clearTimeout(self.vitality_timer);
 		self.vitality_timer=null;
 	}
-	self.vitality_timer=setTimeout(function(){self.refresh_vitality();},60*1000);
+	if (!self.is_detached){
+		self.vitality_timer=setTimeout(function(){self.refresh_vitality();},60*1000);
+	}
 }
 	
 OzioChatPusherChatWidget.prototype.refresh_vitality = function(){
